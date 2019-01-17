@@ -1,0 +1,8 @@
+Python based 2D Side-Scroller game.
+
+-WAD to move:
+  W to jump
+  A to move backwards
+  D to move forwards
+ -Space to fire projectile.
+ -Mouse pointer to aim.
