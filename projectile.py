@@ -121,5 +121,3 @@ class plusProjectile(pg.sprite.Sprite):
                 self.fireright(posx, posy)
                 self.fireup(posx, posy)
                 self.firedown(posx, posy)
-                
-                
