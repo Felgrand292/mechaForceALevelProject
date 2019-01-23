@@ -84,5 +84,40 @@ class playerProjectile(pg.sprite.Sprite):
 			self.kill()
 			self.fired = False
 
+class plusProjectile(pg.sprite.Sprite):
+	# The Players perpendicular projectile attack (sprite and collisions)
+	def __init__(self, game):
+                pg.sprite.Sprite.__init__(self)
+		self.game = game
+		self.image = self.game.spritesheet.get_image(0, 1200, 32, 32)#.set_colorkey(KEY)
+		self.rect = self.image.get_rect()
 
-
+	def fireleft(self, posx, posy):
+                self.rect.center = posx,posy
+                if self.rect.x > 0:
+                        self.rect.x = self.rect.x - 1
+                else:
+                        self.kill()
+	def fireright(self, posx, posy):
+                self.rect.center = posx,posy
+                if self.rect.x < WIDTH:
+                        self.rect.x = self.rect.x + 1
+                else:
+                        self.kill()
+	def fireup(self, posx, posy):
+                self.rect.center = posx,posy
+                if self.rect.y > 0:
+                        self.rect.y = self.rect.y - 1
+                else:
+                        self.kill()
+	def firedown(self, posx, posy):
+                self.rect.center = posx,posy
+                if self.rect.y < HEIGHT:
+                        self.rect.y = self.rect.y + 1
+                else:
+                        self.kill()
+	def fire(self, posx, posy):
+                self.fireleft(posx, posy)
+                self.fireright(posx, posy)
+                self.fireup(posx, posy)
+                self.firedown(posx, posy)
