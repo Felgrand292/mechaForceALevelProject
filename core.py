@@ -37,7 +37,7 @@ class Game:
 				self.totaldeath = 0
 		# Load Spritesheet image
 		self.spritesheet = Spritesheet(path.join(img_dir, SPRITESHEET))
-        # Streamlining the creation of platforms and scenery
+
 	def make_platform(self, x, y, name, state):
 		name = Platform(self, x, y, state)
 		self.all_sprites.add(name)
@@ -62,6 +62,7 @@ class Game:
 		self.make_platform(WIDTH / 2 + 200, HEIGHT * 3 /4, 5, 0)
 		self.make_platform(WIDTH / 2 - 50, HEIGHT * 3 / 4, 11, 0)
 		self.make_platform(WIDTH / 2 + 14, HEIGHT * 3 / 4, 12, 2)
+		self.gunState = 0
 		self.run() 
 
 
@@ -127,10 +128,45 @@ class Game:
 					self.player.jump()
 			if event.type == pg.KEYDOWN:
 				if event.key == pg.K_SPACE:
-					print(self.player.pos.x, self.player.pos.y)
-					self.proj = playerProjectile(self)
-					self.proj.fire(self.player.pos.x, self.player.pos.y)
-					self.all_sprites.add(self.proj)
+					if self.gunState == 1:
+						self.plusProjL = plusProjectilel(self)
+						self.all_sprites.add(self.plusProjL)
+						self.plusProjL.fire(self.player.pos.x, self.player.pos.y)
+						self.plusProjR = plusProjectiler(self)
+						self.all_sprites.add(self.plusProjR)
+						self.plusProjR.fire(self.player.pos.x, self.player.pos.y)
+						self.plusProjU = plusProjectileu(self)
+						self.all_sprites.add(self.plusProjU)
+						self.plusProjU.fire(self.player.pos.x, self.player.pos.y)
+						self.plusProjD = plusProjectiled(self)
+						self.all_sprites.add(self.plusProjD)
+						self.plusProjD.fire(self.player.pos.x, self.player.pos.y)
+					if self.gunState == 0:
+						print(self.player.pos.x, self.player.pos.y)
+						self.proj = playerProjectile(self)
+						self.proj.fire(self.player.pos.x, self.player.pos.y)
+						self.all_sprites.add(self.proj)
+			if event.type == pg.KEYDOWN:
+				if event.key == pg.K_UP:
+					self.gunState = self.gunState + 1
+					print(self.gunState)
+					if self.gunState == 3:
+						self.gunState = 0
+						print(self.gunState)
+					if self.gunState == -1:
+						self.gunState = 2
+						print(self.gunState)
+			if event.type == pg.KEYDOWN:
+				if event.key == pg.K_DOWN:
+					self.gunState = self.gunState - 1
+					if self.gunState == 3:
+						self.gunState = 0
+					if self.gunState == -1:
+						self.gunState = 2
+
+
+
+
 
 	def draw(self):
 		#Game loop - draw
@@ -166,7 +202,7 @@ class Game:
 		# Game over screen
 		if not self.running:
 			return
-                # Increasing "Death Value (Total)"
+
 		self.totaldeath += 1 
 		with open(path.join(self.dir, DEATHs_FILE), 'w') as f:
 			f.write(str(self.totaldeath))
